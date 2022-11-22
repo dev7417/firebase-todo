@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import Todo from './Todo'
 import {AiOutlinePlus} from 'react-icons/ai'
 import { db } from "./Firebase";
-import { collection, query, onSnapshot, updateDoc, doc, addDoc } from "firebase/firestore";
-import { async } from "@firebase/util";
+import { collection, query, onSnapshot, updateDoc, doc, addDoc, deleteDoc } from "firebase/firestore";
 
 const style ={
   bg: `h-screen w-screen p-4 bg-gradient-to-r from-[#2F80ED] to-[#1CB5E0]`,
@@ -34,6 +33,12 @@ const createTodo = async(e) =>{
   text: input,
   completed: false
 })
+setInput('')
+}
+// Delete Todo
+const deleteTodo = async(id) =>{
+  await deleteDoc(doc(db, "todos", id))
+  console.log(deleteTodo)
 }
 
 // Read Todo From Firebase
@@ -65,11 +70,15 @@ const toggleComplete = async(todo)=>{
       </form>
       <ul>
         {todos.map((todo, index)=>{
-        return  <Todo key={index} todo={todo }  toggleComplete={toggleComplete}/>
+        return  <Todo key={index} todo={todo }  toggleComplete={toggleComplete} todoDelete={deleteTodo}/>
 
         })}
         </ul>
-        <p className={style.count}>{`You have ${todos.length} todos`}</p>
+        
+       
+        {todos.length < 1? null : <p className={style.count}>{`You have ${todos.length} todos`}</p>}
+
+        
     </div>
   </div>
   );

@@ -10,14 +10,14 @@ const style ={
 
 }
 
-export default function Todo({todo, toggleComplete}) {
+export default function Todo({todo, toggleComplete, todoDelete}) {
   return (
   <li className={todo.completed ? style.liComplete: style.li}>
     <div className={style.row}>
       <input onChange={()=>toggleComplete(todo)} type="checkbox"  checked={todo.completed ? 'checked': ''}/>
       <p  onClick={()=>toggleComplete(todo)} className={style.text}> {todo.text}</p>
     </div>
-    <button>{<FaRegTrashAlt/>}</button>
+    <button onClick={()=>todoDelete(todo.id)}>{<FaRegTrashAlt/>}</button>
   </li>
   )
 }
